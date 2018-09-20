@@ -16,6 +16,8 @@ def run_episode(env, parameters):
         rewards.append(reward)
         #print("observation:", observation, "mult_param_observ:", mult_param_observ, "reward:", reward)
         totalreward += reward
+        # To be able to render in macOS, see https://stackoverflow.com/questions/21784641/installation-issue-with-matplotlib-python
+        # Create a file ~/.matplotlib/matplotlibrc there and add the following code: backend: TkAgg
         env.render()
         time.sleep(.1)
         if done:
