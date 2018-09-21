@@ -62,14 +62,11 @@ results = []
 for _ in range(1000):
     results.append(train(submit=False))
 
-print(results)
-print("results mean:", np.mean(results))
-
 plt.hist(results, 50, normed=1, facecolor='g', alpha=0.75)
 plt.xlabel('Episodes required to reach 200')
 plt.ylabel('Frequency')
 plt.title('Histogram of Random Search')
 plt.show()
 
-
-print(np.sum(results) / 1000.0)
+print(results)
+print("results mean:", np.sum(results) / 1000.0)
