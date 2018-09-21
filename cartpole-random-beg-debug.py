@@ -18,8 +18,8 @@ def run_episode(env, parameters):
         totalreward += reward
         # To be able to render in macOS, see https://stackoverflow.com/questions/21784641/installation-issue-with-matplotlib-python
         # Create a file ~/.matplotlib/matplotlibrc there and add the following code: backend: TkAgg
-        env.render()
-        time.sleep(.1)
+        #env.render()
+        #time.sleep(.1)
         if done:
             break
     return totalreward, counter, rewards
@@ -63,6 +63,7 @@ for _ in range(1000):
     results.append(train(submit=False))
 
 print(results)
+print("results mean:", np.mean(results))
 
 plt.hist(results, 50, normed=1, facecolor='g', alpha=0.75)
 plt.xlabel('Episodes required to reach 200')
