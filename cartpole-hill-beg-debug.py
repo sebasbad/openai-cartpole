@@ -28,18 +28,26 @@ def train(submit):
     counter = 0
 
     for _ in range(2000):
+    #for _ in range(100):
         counter += 1
         newparams = parameters + (np.random.rand(4) * 2 - 1) * noise_scaling
-        print(newparams)
+        #print(newparams)
+        rewards = []
         reward = 0
         for _ in range(episodes_per_update):
             run = run_episode(env,newparams)
             reward += run
-        reward = run_episode(env,newparams)
-        print("reward %d best %d" % (reward, bestreward))
-        if reward > bestreward:
-            print("update")
-            bestreward = reward
+            rewards.append(run)
+        #reward = run_episode(env,newparams)
+        #print("counter %d reward %d best %d" % (counter, reward, bestreward))
+        best_in_5_episodes = max(rewards)
+        #print("global_counter %d counter %d best_in_5_episodes %d best %d" % (global_counter, counter, best_in_5_episodes, bestreward))
+        #print("rewards %a best %d" % (rewards, best_in_5_episodes))
+        #if reward > bestreward:
+        if best_in_5_episodes > bestreward:
+            #print("update")
+            #bestreward = reward
+            bestreward = best_in_5_episodes
             parameters = newparams
             if reward == 200:
                 break
@@ -51,5 +59,28 @@ def train(submit):
     return counter
 
 
-r = train(submit=False)
-print(r)
+# train an agent to submit to openai gym
+# train(submit=True)
+
+import datetime
+
+# create graphs
+results = []
+global_counter = 0
+for _ in range(1000):
+    global_counter += 1
+    print("global_counter %d" % (global_counter))
+    print(datetime.datetime.now())
+    result = train(submit=False)
+    print(datetime.datetime.now())
+    print("global_counter %d result %d" % (global_counter, result))
+    results.append(result)
+
+plt.hist(results, 50, normed=1, facecolor='g', alpha=0.75)
+plt.xlabel('Episodes required to reach 200')
+plt.ylabel('Frequency')
+plt.title('Histogram of Hill Search')
+plt.show()
+
+print(results)
+print("results mean:", np.sum(results) / 1000.0)
