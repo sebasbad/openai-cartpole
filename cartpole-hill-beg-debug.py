@@ -43,11 +43,11 @@ def train(submit):
         best_in_5_episodes = max(rewards)
         #print("global_counter %d counter %d best_in_5_episodes %d best %d" % (global_counter, counter, best_in_5_episodes, bestreward))
         #print("rewards %a best %d" % (rewards, best_in_5_episodes))
-        #if reward > bestreward:
-        if best_in_5_episodes > bestreward:
+        if reward > bestreward:
+        #if best_in_5_episodes > bestreward:
             #print("update")
-            #bestreward = reward
-            bestreward = best_in_5_episodes
+            bestreward = reward
+            #bestreward = best_in_5_episodes
             parameters = newparams
             if reward == 200:
                 break
@@ -76,11 +76,11 @@ for _ in range(1000):
     print("global_counter %d result %d" % (global_counter, result))
     results.append(result)
 
+print(results)
+print("results mean:", np.sum(results) / 1000.0)
+
 plt.hist(results, 50, normed=1, facecolor='g', alpha=0.75)
 plt.xlabel('Episodes required to reach 200')
 plt.ylabel('Frequency')
 plt.title('Histogram of Hill Search')
 plt.show()
-
-print(results)
-print("results mean:", np.sum(results) / 1000.0)
